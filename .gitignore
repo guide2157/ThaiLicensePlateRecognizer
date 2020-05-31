@@ -1,0 +1,4 @@
+darknet/
+labelImg
+Pipfile.lock
+.DS_Store
