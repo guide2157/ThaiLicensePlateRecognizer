@@ -9,6 +9,7 @@ verify_ssl = true
 numpy = "*"
 opencv-python = "*"
 tensorflow = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.7"
