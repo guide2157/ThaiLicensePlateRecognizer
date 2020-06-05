@@ -24,8 +24,7 @@ class CharRecognizer:
         assert img[0].shape == (45, 50, 3)
         if not self.labels:
             raise Exception("Labels are not loaded into the model. Please call load_label before predict.")
-        image = img / 255.0
-        pred = self.model.predict(image)
+        pred = self.model.predict(img)
         char = np.argmax(pred, axis=1)
         confidence = np.max(pred, axis=1)
         remove_idx = np.argwhere(confidence < threshold)

@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 import tqdm
 import os
+import matplotlib.pyplot as plt
 
 from CNNRecognizer.CharacterRecognizer import CharRecognizer
 from Yolov3PlateDetection.CharactersExtractor import character_detection
@@ -21,7 +22,11 @@ def execute_models(yolo_weight, yolo_cfg, cnn_weight, label_dir, img_dir, verbos
     else:
         imgs_dir.append(img_dir)
 
-    crops = np.zeros((len(imgs_dir), 100, 300, 3))
+    if len(imgs_dir) == 0:
+        print("No image file detected.")
+        exit()
+
+    crops = np.zeros((len(imgs_dir), 100, 300, 3), dtype=np.uint8)
     if verbose:
         print("Extracting license plates...\n")
     for i in tqdm.tqdm(range(len(imgs_dir))):
@@ -34,8 +39,7 @@ def execute_models(yolo_weight, yolo_cfg, cnn_weight, label_dir, img_dir, verbos
     if verbose:
         print("Extracting characters from plates...\n")
     for cropped in crops:
-        img_int = np.array(cropped*255, dtype=np.uint8)
-        license_list.append(character_detection(img_int))
+        license_list.append(character_detection(cropped))
 
     results = []
     if verbose:
